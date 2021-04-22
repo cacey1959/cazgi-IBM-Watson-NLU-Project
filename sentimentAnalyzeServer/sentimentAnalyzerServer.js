@@ -17,6 +17,98 @@ function getNLUInstance() {
     });
 
     return naturalLanguageUnderstanding;
+
+function getEmotion(textToAnalyze, res){
+let naturalLanguageUnderstanding = getInstanceNLU();
+
+const analyzeParams = {
+url: textToAnalyze,
+features: {
+emotion: {}
+}
+};
+    return sentimentOutput;
+naturalLanguageUnderstanding.analyze(analyzeParams)
+.then(analysisResults => {
+res.send(analysisResults.result.emotion);
+})
+.catch(err => {
+res.send(err.toString());
+});
+
+}
+
+app.get("/",(req,res)=>{
+res.render('index.html');
+});
+
+app.get("/url/emotion", (req,res) => {
+let textToAnalyze = req.query.textToAnalyze;
+translate(textToAnalyze, res);
+});
+
+app.get("/url/sentiment", (req,res) => {
+let naturalLanguageUnderstanding = getInstanceNLU();
+
+const analyzeParams = {
+url: req.query.textToAnalyze,
+features: {
+sentiment: {}
+}
+};
+
+naturalLanguageUnderstanding.analyze(analyzeParams)
+.then(analysisResults => {
+res.send(analysisResults.result.sentiment);
+})
+.catch(err => {
+res.send(err.toString());
+});
+});
+
+app.get("/text/emotion", (req,res) => {
+let naturalLanguageUnderstanding = getInstanceNLU();
+
+const analyzeParams = {
+text: req.query.textToAnalyze,
+features: {
+emotion: {}
+}
+};
+
+naturalLanguageUnderstanding.analyze(analyzeParams)
+.then(analysisResults => {
+res.send(analysisResults.result.emotion);
+})
+.catch(err => {
+res.send(err.toString());
+});
+
+});
+
+app.get("/text/sentiment", (req,res) => {
+let naturalLanguageUnderstanding = getInstanceNLU();
+
+const analyzeParams = {
+text: req.query.textToAnalyze,
+features: {
+sentiment: {}
+}
+};
+
+naturalLanguageUnderstanding.analyze(analyzeParams)
+.then(analysisResults => {
+res.send(analysisResults.result.sentiment);
+})
+.catch(err => {
+res.send(err.toString());
+});
+});
+
+let server = app.listen(8080, () => {
+console.log('Listening', server.address().port)
+})
+
 }
 
 
@@ -113,3 +205,4 @@ app.get("/text/sentiment", (req, res) => {
 let server = app.listen(8080, () => {
     console.log('Listening', server.address().port)
 });
+
