@@ -10,15 +10,15 @@ class App extends React.Component {
           sentimentOutput:[],
           sentiment:true
         }
-  componentDidMount(){
+     componentDidMount(){
       const req = axios.get();
       console.log(req);
 
    req.then(resp => {
-         let listOfEvents = resp.data.SentimentAnalyzerEvent;
-        let listOfEventsAsArray = Object.entries(listOfEvents);
-        let eventDetails = listOfEventsAsArray.map((eventDetial)=>{
-          let eventListCollection = Object.entries(eventDetial[1])
+         let listOfEvents = resp.data.SentimentOutput;
+        let sentimentOutputAsArray = Object.entries(listOfEvents);
+        let eventDetails = sentimentOutputAsArray.map((eventDetail)=>{
+          let eventListCollection = Object.entries(eventDetail[1])
           return <tr><td style={{color: "red",border: "1px solid black"}}>{eventListCollection[4][1]} </td>
           <td style={{color: "red",border: "1px solid black"}}> {eventListCollection[5][1]} </td>
           <td style={{color: "red",border: "1px solid black"}}> {eventListCollection[7][1]}</td>
@@ -31,7 +31,6 @@ class App extends React.Component {
         console.log(err.toString())
     });
   }
-  
 
   renderTextArea = ()=>{
     document.getElementById("textinput").value = "";
@@ -103,7 +102,7 @@ class App extends React.Component {
   render() {
     return (  
       <div className="App">
-        <button className="btn btn-info" onClick={this.renderTextArea}>Text</button>
+      <button className="btn btn-info" onClick={this.renderTextArea}>Text</button>
         <button className="btn btn-dark"  onClick={this.renderTextBox}>URL</button>
         <br/><br/>
         {this.state.innercomp}
@@ -114,7 +113,8 @@ class App extends React.Component {
             {this.state.sentimentOutput}
       </div>
     );
-  }
+    }
 }
 
 export default App;
+
