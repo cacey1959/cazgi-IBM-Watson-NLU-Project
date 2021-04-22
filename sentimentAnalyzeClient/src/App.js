@@ -10,7 +10,29 @@ class App extends React.Component {
           sentimentOutput:[],
           sentiment:true
         }
+  componentDidMount(){
+      const req = axios.get();
+      console.log(req);
+
+   req.then(resp => {
+         let listOfEvents = resp.data.SentimentAnalyzerEvent;
+        let listOfEventsAsArray = Object.entries(listOfEvents);
+        let eventDetails = listOfEventsAsArray.map((eventDetial)=>{
+          let eventListCollection = Object.entries(eventDetial[1])
+          return <tr><td style={{color: "red",border: "1px solid black"}}>{eventListCollection[4][1]} </td>
+          <td style={{color: "red",border: "1px solid black"}}> {eventListCollection[5][1]} </td>
+          <td style={{color: "red",border: "1px solid black"}}> {eventListCollection[7][1]}</td>
+          <td style={{color: "red",border: "1px solid black"}}> {eventListCollection[10][1]}</td>
+          <td style={{color: "red",border: "1px solid black"}}>{eventListCollection[11][1]}</td></tr>
+        })
+        this.setState({eventList:<table style={{border: "1px solid black"}}><tbody>{eventDetails}</tbody></table>})
+      })
+    .catch(err => {
+        console.log(err.toString())
+    });
+  }
   
+
   renderTextArea = ()=>{
     document.getElementById("textinput").value = "";
     if(this.state.mode === "url") {
@@ -55,7 +77,7 @@ class App extends React.Component {
       } else if (response.data === "negative"){
         output = <div style={{color:"red",fontSize:20}}>{response.data}</div>
       } else {
-        output = <div style={{color:"orange",fontSize:20}}>{response.data}</div>
+        output = <div style={{color:"yellow",fontSize:20}}>{response.data}</div>
       }
       this.setState({sentimentOutput:output});
     });
@@ -81,7 +103,7 @@ class App extends React.Component {
   render() {
     return (  
       <div className="App">
-      <button className="btn btn-info" onClick={this.renderTextArea}>Text</button>
+        <button className="btn btn-info" onClick={this.renderTextArea}>Text</button>
         <button className="btn btn-dark"  onClick={this.renderTextBox}>URL</button>
         <br/><br/>
         {this.state.innercomp}
@@ -92,7 +114,7 @@ class App extends React.Component {
             {this.state.sentimentOutput}
       </div>
     );
-    }
+  }
 }
 
 export default App;
